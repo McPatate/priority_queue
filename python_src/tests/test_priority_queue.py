@@ -47,7 +47,7 @@ class TestPriorityQueue(unittest.TestCase):
         pq = priority_queue.PriorityQueue(5)
         try:
             pq.pop()
-        except Exception as e:
+        except IndexError as e:
             self.assertEqual(str(e), "Empty queue")
 
 if __name__ == "__main__":

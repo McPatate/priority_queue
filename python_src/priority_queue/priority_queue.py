@@ -42,7 +42,7 @@ class PriorityQueue():
 
     def pop(self, pos = 0):
         if self.length == 0:
-            raise Exception("Empty queue")
+            raise IndexError("Empty queue")
         ret = self.queue[pos]
         self.queue[pos] = self.queue[self.length - 1]
         self.queue[self.length - 1] = None
