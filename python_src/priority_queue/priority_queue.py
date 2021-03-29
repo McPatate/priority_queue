@@ -51,6 +51,6 @@ class PriorityQueue():
         self._heapify_down(pos)
         return ret
 
-    def peek_min(self):
+    def peek(self):
         return self.queue[0]
 

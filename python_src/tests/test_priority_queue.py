@@ -18,7 +18,7 @@ class TestPriorityQueue(unittest.TestCase):
         item2 = priority_queue.PriorityQueueItem(1, "toto")
         pq.push(item1)
         pq.push(item2)
-        self.assertEqual(pq.peek_min().value, "toto")
+        self.assertEqual(pq.peek().value, "toto")
 
     def test_pop(self):
         pq = priority_queue.PriorityQueue(5)
