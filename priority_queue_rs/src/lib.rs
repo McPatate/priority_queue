@@ -24,7 +24,23 @@ impl<T> PriorityQueue<T> {
             }
         }
     }
-    fn heapify_down() {}
+    fn heapify_down(&mut self, pos: usize) {
+        let child_pos = 2 * (pos + 1);
+        let mut smallest_child = child_pos - 1;
+        if child_pos > self.queue.len() {
+            return;
+        } else if child_pos < self.queue.len() {
+            smallest_child = if self.queue[child_pos - 1].0 < self.queue[child_pos].0 {
+                child_pos - 1
+            } else {
+                child_pos
+            };
+        }
+        if self.queue[smallest_child].0 < self.queue[pos].0 {
+            self.queue.swap(pos, smallest_child);
+            self.heapify_down(smallest_child);
+        }
+    }
 }
 
 impl<T> PriorityQueue<T> {
@@ -43,11 +59,21 @@ impl<T> PriorityQueue<T> {
         Ok(())
     }
 
-    pub fn pop(&self) -> (usize, T) {
+    pub fn pop(&mut self) -> Option<(usize, T)> {
         self.pop_at(0)
     }
 
-    pub fn pop_at(&self, idx: usize) -> (usize, T) {}
+    pub fn pop_at(&mut self, idx: usize) -> Option<(usize, T)> {
+        if self.queue.len() == 0 {
+            return None;
+        }
+        let last_pos = self.queue.len();
+        self.queue.swap(idx, last_pos);
+        let ret = self.queue.pop();
+        self.heapify_up(idx);
+        self.heapify_down(idx);
+        ret
+    }
 
     pub fn peek(&self) -> Option<&T> {
         if self.queue.len() > 0 {
@@ -80,5 +106,20 @@ mod tests {
         pq.push("bozo", 1);
         let bozo = pq.peek().unwrap();
         assert_eq!(*bozo, "bozo");
+    }
+
+    #[test]
+    fn test_pop() {
+        let mut pq: PriorityQueue<&str> = PriorityQueue::new(3);
+        pq.push("hello", 5);
+        pq.push("bozo", 1);
+        pq.push("bono", 2);
+        let el1 = pq.pop().unwrap();
+        println!("{}, {}", el1.0, el1.1);
+        assert_eq!(el1, (1, "bozo"));
+        let el2 = pq.pop().unwrap();
+        assert_eq!(el2, (2, "bono"));
+        let el3 = pq.pop().unwrap();
+        assert_eq!(el3, (5, "hello"));
     }
 }
