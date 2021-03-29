@@ -1,5 +1,5 @@
 [package]
-name = "priority_queue"
+name = "priority_queue_rs"
 version = "0.1.0"
 authors = ["McPotato <luc.sydney.georges@gmail.com>"]
 edition = "2018"
