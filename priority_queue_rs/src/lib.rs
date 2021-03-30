@@ -50,7 +50,7 @@ impl<T> PriorityQueue<T> {
             queue: Vec::with_capacity(size),
         }
     }
-    pub fn push(&mut self, value: T, priority: usize) -> Result<(), MaxSizeReachedError> {
+    pub fn push(&mut self, priority: usize, value: T) -> Result<(), MaxSizeReachedError> {
         if self.queue.len() == self.max_size {
             return Err(MaxSizeReachedError);
         }
@@ -102,8 +102,8 @@ mod tests {
     #[test]
     fn test_push() {
         let mut pq: PriorityQueue<&str> = PriorityQueue::new(2);
-        pq.push("hello", 5);
-        pq.push("bozo", 1);
+        pq.push(5, "hello");
+        pq.push(1, "bozo");
         let bozo = pq.peek().unwrap();
         assert_eq!(*bozo, "bozo");
     }
@@ -111,9 +111,9 @@ mod tests {
     #[test]
     fn test_pop() {
         let mut pq: PriorityQueue<&str> = PriorityQueue::new(3);
-        pq.push("hello", 5);
-        pq.push("bozo", 1);
-        pq.push("bono", 2);
+        pq.push(5, "hello");
+        pq.push(1, "bozo");
+        pq.push(2, "bono");
         let el1 = pq.pop().unwrap();
         assert_eq!(el1, (1, "bozo"));
         let el2 = pq.pop().unwrap();
