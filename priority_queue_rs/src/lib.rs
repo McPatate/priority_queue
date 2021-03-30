@@ -67,7 +67,7 @@ impl<T> PriorityQueue<T> {
         if self.queue.len() == 0 {
             return None;
         }
-        let last_pos = self.queue.len();
+        let last_pos = self.queue.len() - 1;
         self.queue.swap(idx, last_pos);
         let ret = self.queue.pop();
         self.heapify_up(idx);
@@ -115,7 +115,6 @@ mod tests {
         pq.push("bozo", 1);
         pq.push("bono", 2);
         let el1 = pq.pop().unwrap();
-        println!("{}, {}", el1.0, el1.1);
         assert_eq!(el1, (1, "bozo"));
         let el2 = pq.pop().unwrap();
         assert_eq!(el2, (2, "bono"));
